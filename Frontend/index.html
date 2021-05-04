@@ -57,7 +57,7 @@
     </div>
 
   <!-- body -->
-    <div class="container">
+    <div class="container" id="bodysearch">
 
       <div class="row p-3">
 
@@ -83,11 +83,11 @@
           <div class="col pt-4">
             <form>
               <div class="form-group">
-                <textarea style="resize:none" class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="x.x.x.x,y.y.y.y"></textarea>
+                <textarea style="resize:none" class="form-control" id="ips" rows="10" placeholder="x.x.x.x,y.y.y.y"></textarea>
               </div>
               <div class="p-4 text-center">
-                <button type="button" class="btn btn-primary rounded" style="width: 10em;">Submit</button>
-                <button type="button" class="btn btn-outline-primary rounded" style="width: 10em;">Reset</button>
+                <button type="button" class="btn btn-primary rounded" style="width: 10em;" id="submit">Submit</button>
+                <button type="button" class="btn btn-outline-primary rounded" style="width: 10em;" id="reset">Reset</button>
               </div>
             </form>
           </div>
@@ -98,8 +98,50 @@
       </div>
     </div>
 
+  <!-- Table for reference -->
+    <div class="container pt-5">
+
+      <div class="row p-3">
+
+        <div class="shadow-none pb-3 pt-3 bg-light rounded">
+          <button type="button" class="btn btn-outline-primary rounded" style="width: 10em;" id="reset">Reset</button>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td colspan="2">Larry the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+
   <!-- Footer -->
-    <div class="container fixed-bottom">
+    <div class="container sticky-bottom">
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
       <div class="row">
         <div class="col-12 col-md">
