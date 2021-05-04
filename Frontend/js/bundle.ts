@@ -1,3 +1,5 @@
+import React from 'react';
+
 const form = document.querySelector('form')
 const data = new FormData(form);
 
@@ -12,3 +14,4 @@ async function foo() {
         console.log('Error: ', err.message);
     }
 }
+
