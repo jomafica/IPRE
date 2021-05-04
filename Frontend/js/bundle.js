@@ -1,2 +1,3 @@
-var ips = document.getElementById("ips");
-console.log(ips);
+var form = document.querySelector('form');
+var data = new FormData(form);
+console.log(data);
