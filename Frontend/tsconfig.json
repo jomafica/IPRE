@@ -4,9 +4,9 @@
       "noImplicitAny": true,
       "removeComments": true,
       "preserveConstEnums": true,
-      "outFile": "../../built/local/tsc.js",
+      "outFile": "js/bundle.js",
       "sourceMap": true
     },
     "include": ["js/**/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
-    }
+}
