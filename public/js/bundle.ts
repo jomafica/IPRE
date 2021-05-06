@@ -4,4 +4,3 @@ function searchInput() {
             console.log(form);
         }
   };
-  

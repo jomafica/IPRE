@@ -1,12 +1,14 @@
 {
+    "compileOnSave": true,
     "compilerOptions": {
+      "watch": true,
       "module": "system",
       "noImplicitAny": true,
       "removeComments": true,
       "preserveConstEnums": true,
-      "outFile": "js/bundle.js",
+      "outFile": "public/js/bundle.js",
       "sourceMap": true
     },
-    "include": ["js/**/*"],
+    "include": ["public/js/**/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }
