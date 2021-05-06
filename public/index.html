@@ -81,16 +81,14 @@
           </div>
 
           <div class="col pt-4">
-            <form id="form">
-              <div class="form-group">
-                <textarea style="resize:none" class="form-control" id="ips" rows="10" placeholder="x.x.x.x,y.y.y.y"></textarea>
-              </div>
-              <div class="p-4 text-center">
-                <button type="button" class="btn btn-primary rounded" style="width: 10em;" onclick="searchInput()" id="submit">Submit</button>
-                <button type="button" class="btn btn-outline-primary rounded" style="width: 10em;" id="reset">Reset</button>
-              </div>
-            </form>
-          </div>
+            <div class="form-group">
+              <textarea type="text" style="resize:none" class="form-control" id="ips" rows="10" placeholder="x.x.x.x,y.y.y.y"></textarea>
+            </div>
+            <div class="p-4 text-center">
+              <button type="button" onclick="searchInput()" class="btn btn-primary rounded" style="width: 10em;" id="submit">Submit</button>
+              <button type="button" onclick="reset()" class="btn btn-outline-primary rounded" style="width: 10em;" id="reset">Reset</button>
+            </div>
+        </div>
           <p class="text-center"><small>This line of text is meant to be treated as fine print.</small></p>
         
         </div>
