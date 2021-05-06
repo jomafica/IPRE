@@ -69,30 +69,30 @@
 
           </div>
 
-      <div class="d-flex">
-        <div class="col shadow p-3 mb-5 bg-body rounded-3">
+      <div class="d-flex justify-content-center">
+        <div class="col shadow p-3 mb-5 bg-body rounded-3" style="max-width: 50em;">
 
           <div class="container text-left">
             <div class="row shadow-none p-3 bg-light rounded">
               <div class="col display-6">
-                <u style="text-decoration-color: #0d6efd;">Search <img width="35em" src="svg/web.svg" alt="globe"></u> 
+                <u style="text-decoration-color: #0d6efd;">Search <img width="35em" src="static/web.svg" alt="globe"></u> 
               </div>
             </div>
           </div>
 
           <div class="col pt-4">
-            <div class="form-group">
-              <textarea type="text" style="resize:none" class="form-control" id="ips" rows="10" placeholder="x.x.x.x,y.y.y.y"></textarea>
-            </div>
-            <div class="p-4 text-center">
-              <button type="button" onclick="searchInput()" class="btn btn-primary rounded" style="width: 10em;" id="submit">Submit</button>
-              <button type="button" onclick="reset()" class="btn btn-outline-primary rounded" style="width: 10em;" id="reset">Reset</button>
-            </div>
-        </div>
-          <p class="text-center"><small>This line of text is meant to be treated as fine print.</small></p>
+              <div class="form-group">
+                <textarea type="text" style="resize:none" class="form-control" id="ips" rows="10" placeholder="x.x.x.x,y.y.y.y"></textarea>
+              </div>
+              <div class="p-4 text-center">
+                <button type="button" class="btn btn-primary rounded" style="width: 10em;" id="submit">Submit</button>
+                <button type="button" onclick="reset()" class="btn btn-outline-primary rounded" style="width: 10em;" id="reset">Reset</button>
+              </div>
+          </div>
+            <p class="text-center"><small>This line of text is meant to be treated as fine print.</small></p>
         
+          </div>
         </div>
-      </div>
       </div>
     </div>
 
@@ -143,7 +143,7 @@
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
       <div class="row">
         <div class="col-12 col-md">
-          <img class="mb-2" src="../assets/brand/bootstrap-logo.svg" alt="" width="24" height="19">
+          <!-- <img class="mb-2" src="../assets/brand/bootstrap-logo.svg" alt="" width="24" height="19"> -->
           <small class="d-block mb-3 text-muted">&copy; 2017–2021</small>
         </div>
         <div class="col-6 col-md">
@@ -179,8 +179,7 @@
     </footer>
     </div>
 
-    <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
-    <script src="js/bundle.js" defer></script>
+    <script src="js/bundle.js" defer></script> 
 
   </body>
 </html>
