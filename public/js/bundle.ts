@@ -3,7 +3,6 @@
     //check if area as the corret format data
     const input = document.getElementById("ips");
     const submit = (<HTMLInputElement>document.getElementById("submit"))
-    submit.disabled = true;
     
     input.addEventListener("blur", (event) => {
 
@@ -11,44 +10,36 @@
 
         let regex  = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/);
 
-        if(regex.test(element.value)){ //is accepting also letters. rong state
-
-            console.log(element.value);
+        if(regex.test(element.value)){ 
+            
+            console.log("true");
 
             input.classList.add('bg-success');
             setTimeout(function(){
                 input.classList.remove('bg-success');
             }, 3000);
-            
-            submit.disabled = false;
 
+            submit.addEventListener("click",function(){
+                if(regex.test(element.value)){
+                    console.log("Submited");
+                    var form = submit.value;
+                    // create promisse for the back end
+                }
+            });
         }
 
         else {  
-
-            submit.disabled = true;
 
             input.classList.add('bg-danger'); 
             setTimeout(function(){
                 input.classList.remove('bg-danger');
             }, 3000);
 
-            console.log(element.value);
+            console.log("False");
 
         };
 
     });
-
-    //Get textarea input value
-    submit.addEventListener("click",function(){
-
-        var form = submit.value;
-
-        console.log(form);
-
-        } 
-    );
-
 
     //reset table and textarea
     document.getElementById("reset").addEventListener("click",function(){
