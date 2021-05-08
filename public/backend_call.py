@@ -333,7 +333,10 @@ def resultss(r_answer,ips):
                     csv["Permalink"] = permalink
     return csv
 
-def main():
+def main(IPLst):
     ch = Cache()
-    open_iplist(json.loads(sys.argv[1]), ch)
-    return sys.stdout.flush()
+    print(IPLst)
+    return open_iplist(json.loads(IPLst), ch)
+
+if __name__ == '__main__':
+    main(sys.argv[0])

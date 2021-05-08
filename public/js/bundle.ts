@@ -11,8 +11,8 @@
         let regex  = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/);
 
         if(regex.test(element.value)){ 
-            
-            console.log("true");
+        
+            console.log("true"); 
 
             input.classList.add('bg-success');
             setTimeout(function(){
