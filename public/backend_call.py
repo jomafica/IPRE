@@ -117,7 +117,6 @@ def hit_cache(file_to_handle, cache):
         return workers_head(request, file_to_handle.values(), cha)
 
     else:        
-
         for k,iiip in file_to_handle.items():
 
             for ip in iiip:
@@ -335,8 +334,7 @@ def resultss(r_answer,ips):
 
 def main(IPLst):
     ch = Cache()
-    print(IPLst)
-    return open_iplist(json.loads(IPLst), ch)
+    print(open_iplist(json.loads(IPLst), ch))
 
 if __name__ == '__main__':
-    main(sys.argv[0])
+    main(sys.argv[1])

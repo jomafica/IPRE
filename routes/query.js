@@ -4,43 +4,66 @@ var router = express.Router();
 let {PythonShell} = require('python-shell')
 
 /* POST ip reputation. */
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
 
-  let pyshell = new PythonShell('./public/backend_call.py',{ mode: 'text'});
-  pyshell.send({ args: req.body});
-  //res.send(answer); 
-  
-  // end the input stream and allow the process to exit
-  pyshell.end(function (err,code,signal) {
-    if (err) throw err;
-    console.log('The exit code was: ' + code);
-    console.log('The exit signal was: ' + signal);
-    console.log('finished');
-  });
+  let options = {
+    mode: 'text',
+    pythonPath: '/opt/homebrew/bin/python3.9',
+    pythonOptions: ['-u'], // get print results in real-time
+    scriptPath: './public/',
+    args: [JSON.stringify(req.body)]
+  };
+//
+//  const pyshell = PythonShell.run('backend_call.py', options, function (err, results) {
+//    if (err) throw err;
+//    // results is an array consisting of messages collected during execution
+//    console.log('results: %j', results);
+//    pyshell.end;
+//  });
+//
+//  pyshell.on('message', function (message) {
+//  // received a message sent from the Python script (a simple "print" statement)
+//    console.log(message);
+//  });
 
+var pyshell = new PythonShell('backend_call.py', options);
+
+    //pyshell.send(JSON.stringify(req.body));
+
+    pyshell.on('message', (message) => {
+        // received a message sent from the Python script (a simple "print" statement)
+        console.log(message);
+        res.setHeader('content-type', 'application/json');
+        res.result = {
+            message: message
+        };
+        next();
+    });
+
+    // end the input stream and allow the process to exit
+    pyshell.end( (err) => {
+        if (err) {
+            res.error = {
+                error: err
+            }
+        };
+
+        console.log('finished');
+        res.result
+        next();
+
+    });
+}, (req, res) => {
+    if (res.result) {
+        
+        res.status(200).json(res.result)
+    } else {
+        res.status(500).json(res.error)
+    }
 });
 
+
+
+//});
+
 module.exports = router;
-
-/*
-var process = spawn('python3', ["./public/backend_call.py","main(req.body)"]);
-
-process.stdout.on('data',  (data) => {
-
-  try {
-
-    var jsonString = data.toString('utf8'); 
-    var arraySuggestions = new Array(); 
-    if(FUNCTIONS.equalsIgnoreCase(jsonString,'None\n')){
-
-    }
-    else{
-      var str = jsonString.replace(/\'/g,'\"'); 
-      arraySuggestions = JSON.parse(str); 
-      res.send(arraySuggestions);
-    }  
-  }
-  catch (e) {
-    console.log(e);
-  }
-}); */
