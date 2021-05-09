@@ -1,4 +1,5 @@
 var createError = require('http-errors');
+var cors = require('cors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -8,6 +9,8 @@ var queryroute = require('./routes/query');
 //var usersRouter = require('./routes/users');
 
 var app = express();
+
+app.use(cors({origin: '*'}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

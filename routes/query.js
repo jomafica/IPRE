@@ -4,19 +4,22 @@ let {PythonShell} = require('python-shell')
 
 /* POST ip reputation. */
 router.post('/', (req, res, next) => {
-
+  console.log(req.body)
+  
   let options = {
     mode: 'text',
     pythonPath: '/opt/homebrew/bin/python3.9',
     pythonOptions: ['-u'], // get print results in real-time
     scriptPath: './public/',
     args: [JSON.stringify(req.body)]
+    // args: [req.body]
   };
 
   var pyshell = new PythonShell('backend_call.py', options);
 
   pyshell.on('message', (message) => {
       //console.log(message);
+      
       return res.result = {
           Results: message
       };

@@ -13,7 +13,28 @@
             submit.addEventListener("click", function () {
                 if (regex.test(element.value)) {
                     console.log("Submited");
-                    var form = submit.value;
+                    var lst;
+                    var temp_lst = [element.value];
+                    var i;
+                    console.log(temp_lst);
+                    if (temp_lst.length > 1) {
+                        for (i in temp_lst) {
+                            lst.join(i);
+                        }
+                    }
+                    ;
+                    var json = { ips: lst };
+                    console.log(JSON.stringify(json));
+                    var options = {
+                        method: 'POST',
+                        body: JSON.stringify(json),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    };
+                    fetch('/query', options)
+                        .then(function (res) { return res.json(); })
+                        .then(function (res) { return console.log(res); })["catch"](function (err) { return console.error(err); });
                 }
             });
         }
