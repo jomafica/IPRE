@@ -1,9 +1,10 @@
 (function () {
     var input = document.getElementById("ips");
     var submit = document.getElementById("submit");
+    var regex = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
     input.addEventListener("blur", function (event) {
         var element = event.target;
-        var regex = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/);
+        var lista = element.value.match(regex);
         if (regex.test(element.value)) {
             console.log("true");
             input.classList.add('bg-success');
@@ -13,18 +14,17 @@
             submit.addEventListener("click", function () {
                 if (regex.test(element.value)) {
                     console.log("Submited");
-                    var lst;
-                    var temp_lst = [element.value];
-                    var i;
-                    console.log(temp_lst);
-                    if (temp_lst.length > 1) {
-                        for (i in temp_lst) {
-                            lst.join(i);
+                    var lst = new Array;
+                    if (lista.length > 0) {
+                        for (var i = 0; i < lista.length; i++) {
+                            lst.push(lista[i]);
                         }
+                    }
+                    else {
+                        lst = lista;
                     }
                     ;
                     var json = { ips: lst };
-                    console.log(JSON.stringify(json));
                     var options = {
                         method: 'POST',
                         body: JSON.stringify(json),

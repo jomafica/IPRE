@@ -3,12 +3,14 @@
     //check if area as the corret format data
     const input = document.getElementById("ips");
     const submit = (<HTMLInputElement>document.getElementById("submit"))
+
+    let regex  = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
     
     input.addEventListener("blur", (event) => {
 
-        const element = event.target as HTMLInputElement;
-
-        let regex  = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/);
+        // duplica o valor cada vez que faz o blur
+        var element = event.target as HTMLInputElement;
+        const lista = element.value.match(regex); 
 
         if(regex.test(element.value)){ 
         
@@ -23,20 +25,17 @@
                 if(regex.test(element.value)){
                     console.log("Submited");
 
-                    var lst: [];
-                    var temp_lst = [element.value]
-                    var i;
+                    var lst = new Array;
 
-                    console.log(temp_lst)
-                    
-                    if(temp_lst.length > 1) {
-                        for( i in temp_lst) {
-                            lst.join(i)
+                    if(lista.length > 0) {
+                        for( var i = 0; i < lista.length; i++) {
+                            lst.push(lista[i]);
                         }
+                    } else {
+                        lst = lista
                     };
 
                     var json = {ips: lst};
-                    console.log(JSON.stringify(json))
 
                     const options = {
                         method: 'POST',
@@ -51,6 +50,8 @@
                         .then(res => res.json())
                         .then(res => console.log(res))
                         .catch(err => console.error(err));
+
+                    //construir a tabela
 
                 }
             });
