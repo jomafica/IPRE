@@ -48,8 +48,8 @@
                     
                     // send post request and call function
                     fetch('/query', options)
-                        .then(res => createtable(res.json()))
-                        .then(res => console.log(res))
+                        .then(res => res.json())
+                        .then(res => createtable(res))
                         .catch(err => console.error(err));
 
                 }
@@ -69,7 +69,10 @@
 
     });
 
-    function createtable(data: object) {
+    function createtable(data: Object) {
+
+        const tostring = JSON.stringify(data);
+        const tojson = JSON.parse(tostring);
 
         const bodysearch = document.getElementById("bodysearch");
 
@@ -90,18 +93,49 @@
         headdivbutton.setAttribute("style","width: 10em;");
 
         //create table now
-        console.log(data);
-        
-
         const table = document.createElement("table");
+        const thead = document.createElement("thead");
+        const tbody = document.createElement("tbody");
+        const tr = document.createElement("tr");
+        const tre = document.createElement("tr");
+
+        var finaldict = new Array;
+        
+        const rgx = /\'/g;
+        for (var key in tojson) {
+            if(tojson.hasOwnProperty(key)){
+                finaldict = JSON.parse(tojson[key].replace(rgx, "\""))
+            }
+          }
+
+        
+        finaldict.forEach(elmnt => {
+            for (const key in elmnt) {
+                const th = document.createElement("th");
+                th.setAttribute("scope","col");
+                th.innerText = key
+                tr.append(th)
+
+                if (Object.prototype.hasOwnProperty.call(elmnt, key)) {
+                    const element = elmnt[key]
+                    const td = document.createElement("td");
+                    td.innerText = element
+                    tre.append(td)
+                }
+            }
+        });
 
 
+        thead.append(tr)
+        table.append(thead)
+        tbody.append(tre)
+        thead.after(tbody)
 
         headdiv.append(headdivbutton)
-        headdiv.after(table)
         innerdiv.append(headdiv)
         newdiv.append(innerdiv)
         bodysearch.after(newdiv)
+        headdiv.after(table)
 
         
     };

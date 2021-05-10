@@ -34,8 +34,8 @@
                         }
                     };
                     fetch('/query', options)
-                        .then(function (res) { return createtable(res.json()); })
-                        .then(function (res) { return console.log(res); })["catch"](function (err) { return console.error(err); });
+                        .then(function (res) { return res.json(); })
+                        .then(function (res) { return createtable(res); })["catch"](function (err) { return console.error(err); });
                 }
             });
         }
@@ -49,6 +49,8 @@
         ;
     });
     function createtable(data) {
+        var tostring = JSON.stringify(data);
+        var tojson = JSON.parse(tostring);
         var bodysearch = document.getElementById("bodysearch");
         var newdiv = document.createElement("div");
         newdiv.setAttribute("class", "container pt-5");
@@ -62,13 +64,41 @@
         headdivbutton.setAttribute("class", "btn btn-outline-primary rounded");
         headdivbutton.setAttribute("id", "reset");
         headdivbutton.setAttribute("style", "width: 10em;");
-        console.log(data);
         var table = document.createElement("table");
+        var thead = document.createElement("thead");
+        var tbody = document.createElement("tbody");
+        var tr = document.createElement("tr");
+        var tre = document.createElement("tr");
+        var finaldict = new Array;
+        var rgx = /\'/g;
+        for (var key in tojson) {
+            if (tojson.hasOwnProperty(key)) {
+                finaldict = JSON.parse(tojson[key].replace(rgx, "\""));
+            }
+        }
+        finaldict.forEach(function (elmnt) {
+            for (var key_1 in elmnt) {
+                var th = document.createElement("th");
+                th.setAttribute("scope", "col");
+                th.innerText = key_1;
+                tr.append(th);
+                if (Object.prototype.hasOwnProperty.call(elmnt, key_1)) {
+                    var element = elmnt[key_1];
+                    var td = document.createElement("td");
+                    td.innerText = element;
+                    tre.append(td);
+                }
+            }
+        });
+        thead.append(tr);
+        table.append(thead);
+        tbody.append(tre);
+        thead.after(tbody);
         headdiv.append(headdivbutton);
-        headdiv.after(table);
         innerdiv.append(headdiv);
         newdiv.append(innerdiv);
         bodysearch.after(newdiv);
+        headdiv.after(table);
     }
     ;
     document.getElementById("reset").addEventListener("click", function () {

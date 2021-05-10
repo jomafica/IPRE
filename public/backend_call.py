@@ -96,7 +96,7 @@ def open_iplist(ipslist, cache):
 
         for dics in temp_jbodys:
             ids += 1
-            updict = {"id" : ids}
+            updict = {"Id" : ids}
             updict.update(dics)
             return_jbody.append(updict)
 
@@ -231,7 +231,7 @@ def resultss(r_answer,ips):
     if isinstance(r_answer, list):
         ipliist = ips
         for x in r_answer:
-            csv["IP"] = ipliist
+            csv["Ip"] = ipliist
             for k,v in x.items():
                 if k == "resolutions":
                     temp_list = []
