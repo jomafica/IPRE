@@ -16,7 +16,8 @@
                     console.log("Submited");
                     var lst = new Array;
                     if (lista.length > 0) {
-                        for (var i = 0; i < lista.length; i++) {
+                        var l = lista.length;
+                        for (var i = 0; i < l; i++) {
                             lst.push(lista[i]);
                         }
                     }
@@ -33,7 +34,7 @@
                         }
                     };
                     fetch('/query', options)
-                        .then(function (res) { return res.json(); })
+                        .then(function (res) { return createtable(res.json()); })
                         .then(function (res) { return console.log(res); })["catch"](function (err) { return console.error(err); });
                 }
             });
@@ -47,6 +48,29 @@
         }
         ;
     });
+    function createtable(data) {
+        var bodysearch = document.getElementById("bodysearch");
+        var newdiv = document.createElement("div");
+        newdiv.setAttribute("class", "container pt-5");
+        var innerdiv = document.createElement("div");
+        innerdiv.setAttribute("class", "row p-3");
+        var headdiv = document.createElement("div");
+        headdiv.setAttribute("class", "shadow-none pb-3 pt-3 bg-light rounded");
+        var headdivbutton = document.createElement("button");
+        headdivbutton.innerHTML = "Reset";
+        headdivbutton.setAttribute("type", "button");
+        headdivbutton.setAttribute("class", "btn btn-outline-primary rounded");
+        headdivbutton.setAttribute("id", "reset");
+        headdivbutton.setAttribute("style", "width: 10em;");
+        console.log(data);
+        var table = document.createElement("table");
+        headdiv.append(headdivbutton);
+        headdiv.after(table);
+        innerdiv.append(headdiv);
+        newdiv.append(innerdiv);
+        bodysearch.after(newdiv);
+    }
+    ;
     document.getElementById("reset").addEventListener("click", function () {
         var form = document.getElementById("ips").value;
         console.log("cleaned");

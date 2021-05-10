@@ -28,7 +28,8 @@
                     var lst = new Array;
 
                     if(lista.length > 0) {
-                        for( var i = 0; i < lista.length; i++) {
+                        var l = lista.length
+                        for( var i = 0; i < l; i++) {
                             lst.push(lista[i]);
                         }
                     } else {
@@ -45,13 +46,11 @@
                         }
                     }
                     
-                    // send post request
+                    // send post request and call function
                     fetch('/query', options)
-                        .then(res => res.json())
+                        .then(res => createtable(res.json()))
                         .then(res => console.log(res))
                         .catch(err => console.error(err));
-
-                    //construir a tabela
 
                 }
             });
@@ -69,6 +68,45 @@
         };
 
     });
+
+    function createtable(data: object) {
+
+        const bodysearch = document.getElementById("bodysearch");
+
+        const newdiv = document.createElement("div");
+        newdiv.setAttribute("class","container pt-5");
+
+        const innerdiv = document.createElement("div");
+        innerdiv.setAttribute("class","row p-3");
+
+        const headdiv = document.createElement("div");
+        headdiv.setAttribute("class","shadow-none pb-3 pt-3 bg-light rounded");
+
+        const headdivbutton = document.createElement("button");
+        headdivbutton.innerHTML = "Reset";
+        headdivbutton.setAttribute("type","button");
+        headdivbutton.setAttribute("class","btn btn-outline-primary rounded");
+        headdivbutton.setAttribute("id","reset");
+        headdivbutton.setAttribute("style","width: 10em;");
+
+        //create table now
+        console.log(data);
+        
+
+        const table = document.createElement("table");
+
+
+
+        headdiv.append(headdivbutton)
+        headdiv.after(table)
+        innerdiv.append(headdiv)
+        newdiv.append(innerdiv)
+        bodysearch.after(newdiv)
+
+        
+    };
+
+
 
     //reset table and textarea
     document.getElementById("reset").addEventListener("click",function(){
