@@ -1,52 +1,44 @@
 (function () {
     var input = document.getElementById("ips");
     var submit = document.getElementById("submit");
+    var lista = new Array;
     var regex = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
-    input.addEventListener("blur", function (event) {
+    input.addEventListener("input", function () {
         var element = event.target;
-        var lista = element.value.match(regex);
         if (regex.test(element.value)) {
-            console.log("true");
-            input.classList.add('bg-success');
-            setTimeout(function () {
-                input.classList.remove('bg-success');
-            }, 3000);
-            submit.addEventListener("click", function () {
-                if (regex.test(element.value)) {
-                    console.log("Submited");
-                    var lst = new Array;
-                    if (lista.length > 0) {
-                        var l = lista.length;
-                        for (var i = 0; i < l; i++) {
-                            lst.push(lista[i]);
-                        }
-                    }
-                    else {
-                        lst = lista;
-                    }
-                    ;
-                    var json = { ips: lst };
-                    var options = {
-                        method: 'POST',
-                        body: JSON.stringify(json),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    };
-                    fetch('/query', options)
-                        .then(function (res) { return res.json(); })
-                        .then(function (res) { return createtable(res); })["catch"](function (err) { return console.error(err); });
-                }
-            });
+            console.log(element.value);
+            return lista = element.value.match(regex);
         }
         else {
-            input.classList.add('bg-danger');
-            setTimeout(function () {
-                input.classList.remove('bg-danger');
-            }, 3000);
-            console.log("False");
+            lista = [];
         }
-        ;
+    }, false);
+    submit.addEventListener("click", function () {
+        if (regex.test(lista.toString())) {
+            console.log("Submited");
+            var lst = new Array;
+            if (lista.length > 0) {
+                var l = lista.length;
+                for (var i = 0; i < l; i++) {
+                    lst.push(lista[i]);
+                }
+            }
+            else {
+                lst = lista;
+            }
+            ;
+            var json = { ips: lst };
+            var options = {
+                method: 'POST',
+                body: JSON.stringify(json),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            fetch('/query', options)
+                .then(function (res) { return res.json(); })
+                .then(function (res) { return createtable(res); })["catch"](function (err) { return console.error(err); });
+        }
     });
     function createtable(data) {
         var tostring = JSON.stringify(data);
@@ -54,6 +46,7 @@
         var bodysearch = document.getElementById("bodysearch");
         var newdiv = document.createElement("div");
         newdiv.setAttribute("class", "container pt-5");
+        newdiv.setAttribute("id", "tablediv");
         var innerdiv = document.createElement("div");
         innerdiv.setAttribute("class", "row p-3");
         var headdiv = document.createElement("div");
@@ -65,6 +58,7 @@
         headdivbutton.setAttribute("id", "reset");
         headdivbutton.setAttribute("style", "width: 10em;");
         var table = document.createElement("table");
+        table.setAttribute("class", "table");
         var thead = document.createElement("thead");
         var tbody = document.createElement("tbody");
         var tr = document.createElement("tr");
@@ -102,7 +96,8 @@
     }
     ;
     document.getElementById("reset").addEventListener("click", function () {
-        var form = document.getElementById("ips").value;
+        var form = document.getElementById("tablediv");
+        form.remove();
         console.log("cleaned");
     });
 })();

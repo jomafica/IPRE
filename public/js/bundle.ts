@@ -3,71 +3,52 @@
     //check if area as the corret format data
     const input = document.getElementById("ips");
     const submit = (<HTMLInputElement>document.getElementById("submit"))
-
+    var lista  = new Array
     let regex  = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
-    
-    input.addEventListener("blur", (event) => {
 
-        // duplica o valor cada vez que faz o blur
+    input.addEventListener("input",() => {
         var element = event.target as HTMLInputElement;
-        const lista = element.value.match(regex); 
+        if(regex.test(element.value)){
+            console.log(element.value)
+            return lista = element.value.match(regex);
+        } else { lista = [] }  
+    },false);
 
-        if(regex.test(element.value)){ 
-        
-            console.log("true"); 
+    submit.addEventListener("click",() => {
 
-            input.classList.add('bg-success');
-            setTimeout(function(){
-                input.classList.remove('bg-success');
-            }, 3000);
+        if(regex.test(lista.toString())){
+            console.log("Submited");
 
-            submit.addEventListener("click",function(){
-                if(regex.test(element.value)){
-                    console.log("Submited");
+            var lst = new Array;
 
-                    var lst = new Array;
-
-                    if(lista.length > 0) {
-                        var l = lista.length
-                        for( var i = 0; i < l; i++) {
-                            lst.push(lista[i]);
-                        }
-                    } else {
-                        lst = lista
-                    };
-
-                    var json = {ips: lst};
-
-                    const options = {
-                        method: 'POST',
-                        body: JSON.stringify(json),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }
-                    
-                    // send post request and call function
-                    fetch('/query', options)
-                        .then(res => res.json())
-                        .then(res => createtable(res))
-                        .catch(err => console.error(err));
-
+            if(lista.length > 0) {
+                var l = lista.length
+                for( var i = 0; i < l; i++) {
+                    lst.push(lista[i]);
                 }
-            });
+            } else {
+                lst = lista
+            };
+
+            var json = {ips: lst};
+
+            const options = {
+                method: 'POST',
+                body: JSON.stringify(json),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            
+            // send post request and call function
+            fetch('/query', options)
+                .then(res => res.json())
+                .then(res => createtable(res))
+                .catch(err => console.error(err));
+
         }
-
-        else {  
-
-            input.classList.add('bg-danger'); 
-            setTimeout(function(){
-                input.classList.remove('bg-danger');
-            }, 3000);
-
-            console.log("False");
-
-        };
-
     });
+
 
     function createtable(data: Object) {
 
@@ -78,6 +59,7 @@
 
         const newdiv = document.createElement("div");
         newdiv.setAttribute("class","container pt-5");
+        newdiv.setAttribute("id", "tablediv")
 
         const innerdiv = document.createElement("div");
         innerdiv.setAttribute("class","row p-3");
@@ -94,6 +76,7 @@
 
         //create table now
         const table = document.createElement("table");
+        table.setAttribute("class", "table");
         const thead = document.createElement("thead");
         const tbody = document.createElement("tbody");
         const tr = document.createElement("tr");
@@ -145,7 +128,8 @@
     //reset table and textarea
     document.getElementById("reset").addEventListener("click",function(){
         
-        var form = (<HTMLInputElement>document.getElementById("ips")).value;
+        var form = (<HTMLInputElement>document.getElementById("tablediv"));
+        form.remove()
 
         console.log("cleaned");
 
