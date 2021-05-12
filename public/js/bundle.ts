@@ -3,51 +3,55 @@
     //check if area as the corret format data
     const input = document.getElementById("ips");
     const submit = (<HTMLInputElement>document.getElementById("submit"))
-    var lista  = new Array
+    var lista : Array<string> = [];
     let regex  = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
 
     input.addEventListener("input",() => {
         var element = event.target as HTMLInputElement;
         if(regex.test(element.value)){
-            console.log(element.value)
-            return lista = element.value.match(regex);
-        } else { lista = [] }  
+            console.log(element.value.match(regex))
+            lista = element.value.match(regex)
+            click(lista);
+        } else { click([]) }
     },false);
 
-    submit.addEventListener("click",() => {
+    function click(arrays : Array<string>) {
+        submit.addEventListener("click",() => {
 
-        if(regex.test(lista.toString())){
-            console.log("Submited");
+            if(regex.test(arrays.toString())){
+                console.log("Submited");
 
-            var lst = new Array;
+                var lst = new Array;
 
-            if(lista.length > 0) {
-                var l = lista.length
-                for( var i = 0; i < l; i++) {
-                    lst.push(lista[i]);
+                if(arrays.length > 0) {
+                    var l = arrays.length
+                    for( var i = 0; i < l; i++) {
+                        lst.push(arrays[i]);
+                    }
+                } else {
+                    lst = arrays
+                };
+
+
+                var json = {ips: lst};
+
+                const options = {
+                    method: 'POST',
+                    body: JSON.stringify(json),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 }
-            } else {
-                lst = lista
-            };
+                
+                // send post request and call function
+                fetch('/query', options)
+                    .then(res => res.json())
+                    .then(res => createtable(res))
+                    .catch(err => console.error(err));
 
-            var json = {ips: lst};
-
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(json),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
             }
-            
-            // send post request and call function
-            fetch('/query', options)
-                .then(res => res.json())
-                .then(res => createtable(res))
-                .catch(err => console.error(err));
-
-        }
-    });
+        });
+    };
 
 
     function createtable(data: Object) {

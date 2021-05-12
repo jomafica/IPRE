@@ -1,45 +1,49 @@
 (function () {
     var input = document.getElementById("ips");
     var submit = document.getElementById("submit");
-    var lista = new Array;
+    var lista = [];
     var regex = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
     input.addEventListener("input", function () {
         var element = event.target;
         if (regex.test(element.value)) {
-            console.log(element.value);
-            return lista = element.value.match(regex);
+            console.log(element.value.match(regex));
+            lista = element.value.match(regex);
+            click(lista);
         }
         else {
-            lista = [];
+            click([]);
         }
     }, false);
-    submit.addEventListener("click", function () {
-        if (regex.test(lista.toString())) {
-            console.log("Submited");
-            var lst = new Array;
-            if (lista.length > 0) {
-                var l = lista.length;
-                for (var i = 0; i < l; i++) {
-                    lst.push(lista[i]);
+    function click(arrays) {
+        submit.addEventListener("click", function () {
+            if (regex.test(arrays.toString())) {
+                console.log("Submited");
+                var lst = new Array;
+                if (arrays.length > 0) {
+                    var l = arrays.length;
+                    for (var i = 0; i < l; i++) {
+                        lst.push(arrays[i]);
+                    }
                 }
-            }
-            else {
-                lst = lista;
-            }
-            ;
-            var json = { ips: lst };
-            var options = {
-                method: 'POST',
-                body: JSON.stringify(json),
-                headers: {
-                    'Content-Type': 'application/json'
+                else {
+                    lst = arrays;
                 }
-            };
-            fetch('/query', options)
-                .then(function (res) { return res.json(); })
-                .then(function (res) { return createtable(res); })["catch"](function (err) { return console.error(err); });
-        }
-    });
+                ;
+                var json = { ips: lst };
+                var options = {
+                    method: 'POST',
+                    body: JSON.stringify(json),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                };
+                fetch('/query', options)
+                    .then(function (res) { return res.json(); })
+                    .then(function (res) { return createtable(res); })["catch"](function (err) { return console.error(err); });
+            }
+        });
+    }
+    ;
     function createtable(data) {
         var tostring = JSON.stringify(data);
         var tojson = JSON.parse(tostring);
