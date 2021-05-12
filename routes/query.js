@@ -6,7 +6,7 @@ let {PythonShell} = require('python-shell')
 router.post('/', (req, res, next) => {
   console.log(req.body)
   
-  let options = {
+  let m_options = {
     mode: 'text',
     pythonPath: '/opt/homebrew/bin/python3.9',
     pythonOptions: ['-u'], // get print results in real-time
@@ -15,7 +15,17 @@ router.post('/', (req, res, next) => {
     // args: [req.body]
   };
 
-  var pyshell = new PythonShell('backend_call.py', options);
+  let w_options = {
+    mode: 'text',
+    pythonPath: 'C:/Users/dpereira/AppData/Local/Programs/Python/Python39/python.exe',
+    pythonOptions: ['-u'], // get print results in real-time
+    scriptPath: './public',
+    args: [JSON.stringify(req.body)]
+    // args: [req.body]
+  };
+
+
+  var pyshell = new PythonShell('backend_call.py', w_options);
 
   pyshell.on('message', (message) => {
       //console.log(message);
