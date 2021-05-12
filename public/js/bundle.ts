@@ -1,6 +1,6 @@
 (function(){
 
-    //check if area as the corret format data
+    //check if area as the correct format data
     const input = document.getElementById("ips");
     const submit = (<HTMLInputElement>document.getElementById("submit"))
     let regex  = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
@@ -58,21 +58,35 @@
 
     function createtable(data: Object) {
 
+        // Create a json body array
         const tostring = JSON.stringify(data);
         const tojson = JSON.parse(tostring);
+        var finaldict = new Array;
+        const rgx = /\'/g;
+        
+        for (var key in tojson) {
+            if(tojson.hasOwnProperty(key)){
+                finaldict = JSON.parse(tojson[key].replace(rgx, "\""))
+            }
+        };
 
+        // Get element to append after the table
         const bodysearch = document.getElementById("bodysearch");
 
+        // Create placeholder
         const newdiv = document.createElement("div");
         newdiv.setAttribute("class","container pt-5");
         newdiv.setAttribute("id", "tablediv")
 
+        // Create div for table
         const innerdiv = document.createElement("div");
-        innerdiv.setAttribute("class","row p-3");
+        innerdiv.setAttribute("class","row p-3 ");
 
+        // Create div for button
         const headdiv = document.createElement("div");
         headdiv.setAttribute("class","shadow-none pb-3 pt-3 bg-light rounded");
 
+        // Create button
         const headdivbutton = document.createElement("button");
         headdivbutton.innerHTML = "Reset";
         headdivbutton.setAttribute("type","button");
@@ -86,50 +100,43 @@
         const thead = document.createElement("thead");
         const tbody = document.createElement("tbody");
         const tr = document.createElement("tr");
-        const tre = document.createElement("tr");
-
-        var finaldict = new Array;
         
-        const rgx = /\'/g;
-        for (var key in tojson) {
-            if(tojson.hasOwnProperty(key)){
-                finaldict = JSON.parse(tojson[key].replace(rgx, "\""))
-            }
-          }
 
-        
-        finaldict.forEach(elmnt => {
-            for (const key in elmnt) {
+        // Create everything for the table ---------
+
+        // Defining headers
+        Object.entries(finaldict[0]).forEach( ([key, value]) => {
                 const th = document.createElement("th");
                 th.setAttribute("scope","col");
                 th.innerText = key
                 tr.append(th)
-
-                if (Object.prototype.hasOwnProperty.call(elmnt, key)) {
-                    const element = elmnt[key]
-                    const td = document.createElement("td");
-                    td.innerText = element
-                    tre.append(td)
-                }
-            }
         });
 
-
+        // Create row for each value
+        var i;
+        for(i = 0; i < finaldict.length; i++){
+            var child = finaldict[i];
+            const tre = document.createElement("tr");
+            Object.keys(child).forEach( (k) => {
+                const td = document.createElement("td");
+                td.innerText = child[k]
+                tre.append(td)
+                tbody.append(tre)
+        
+            });
+        };
+        
+        // Construct table
         thead.append(tr)
-        table.append(thead)
-        tbody.append(tre)
+        table.append(thead) 
         thead.after(tbody)
-
         headdiv.append(headdivbutton)
         innerdiv.append(headdiv)
         newdiv.append(innerdiv)
         bodysearch.after(newdiv)
         headdiv.after(table)
 
-        
     };
-
-
 
     //reset table and textarea
     document.getElementById("reset").addEventListener("click",function(){

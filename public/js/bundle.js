@@ -44,12 +44,20 @@
     function createtable(data) {
         const tostring = JSON.stringify(data);
         const tojson = JSON.parse(tostring);
+        var finaldict = new Array;
+        const rgx = /\'/g;
+        for (var key in tojson) {
+            if (tojson.hasOwnProperty(key)) {
+                finaldict = JSON.parse(tojson[key].replace(rgx, "\""));
+            }
+        }
+        ;
         const bodysearch = document.getElementById("bodysearch");
         const newdiv = document.createElement("div");
         newdiv.setAttribute("class", "container pt-5");
         newdiv.setAttribute("id", "tablediv");
         const innerdiv = document.createElement("div");
-        innerdiv.setAttribute("class", "row p-3");
+        innerdiv.setAttribute("class", "row p-3 ");
         const headdiv = document.createElement("div");
         headdiv.setAttribute("class", "shadow-none pb-3 pt-3 bg-light rounded");
         const headdivbutton = document.createElement("button");
@@ -63,31 +71,26 @@
         const thead = document.createElement("thead");
         const tbody = document.createElement("tbody");
         const tr = document.createElement("tr");
-        const tre = document.createElement("tr");
-        var finaldict = new Array;
-        const rgx = /\'/g;
-        for (var key in tojson) {
-            if (tojson.hasOwnProperty(key)) {
-                finaldict = JSON.parse(tojson[key].replace(rgx, "\""));
-            }
-        }
-        finaldict.forEach(elmnt => {
-            for (const key in elmnt) {
-                const th = document.createElement("th");
-                th.setAttribute("scope", "col");
-                th.innerText = key;
-                tr.append(th);
-                if (Object.prototype.hasOwnProperty.call(elmnt, key)) {
-                    const element = elmnt[key];
-                    const td = document.createElement("td");
-                    td.innerText = element;
-                    tre.append(td);
-                }
-            }
+        Object.entries(finaldict[0]).forEach(([key, value]) => {
+            const th = document.createElement("th");
+            th.setAttribute("scope", "col");
+            th.innerText = key;
+            tr.append(th);
         });
+        var i;
+        for (i = 0; i < finaldict.length; i++) {
+            var child = finaldict[i];
+            const tre = document.createElement("tr");
+            Object.keys(child).forEach((k) => {
+                const td = document.createElement("td");
+                td.innerText = child[k];
+                tre.append(td);
+                tbody.append(tre);
+            });
+        }
+        ;
         thead.append(tr);
         table.append(thead);
-        tbody.append(tre);
         thead.after(tbody);
         headdiv.append(headdivbutton);
         innerdiv.append(headdiv);
