@@ -1,88 +1,85 @@
 (function () {
-    var input = document.getElementById("ips");
-    var submit = document.getElementById("submit");
+    const input = document.getElementById("ips");
+    const submit = document.getElementById("submit");
+    let regex = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
     var lista = [];
-    var regex = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
-    input.addEventListener("input", function () {
-        var element = event.target;
+    input.addEventListener("input", (e) => {
+        var element = e.target;
         if (regex.test(element.value)) {
-            console.log(element.value.match(regex));
             lista = element.value.match(regex);
-            click(lista);
         }
         else {
-            click([]);
+            lista = [];
         }
     }, false);
-    function click(arrays) {
-        submit.addEventListener("click", function () {
-            if (regex.test(arrays.toString())) {
-                console.log("Submited");
-                var lst = new Array;
-                if (arrays.length > 0) {
-                    var l = arrays.length;
-                    for (var i = 0; i < l; i++) {
-                        lst.push(arrays[i]);
-                    }
+    submit.addEventListener("click", () => {
+        console.log(lista);
+        if (regex.test(lista.toString())) {
+            console.log("Submited");
+            var lst = new Array;
+            if (lista.length > 0) {
+                var l = lista.length;
+                for (var i = 0; i < l; i++) {
+                    lst.push(lista[i]);
                 }
-                else {
-                    lst = arrays;
-                }
-                ;
-                var json = { ips: lst };
-                var options = {
-                    method: 'POST',
-                    body: JSON.stringify(json),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                };
-                fetch('/query', options)
-                    .then(function (res) { return res.json(); })
-                    .then(function (res) { return createtable(res); })["catch"](function (err) { return console.error(err); });
             }
-        });
-    }
-    ;
+            else {
+                lst = lista;
+            }
+            ;
+            var json = { ips: lst };
+            const options = {
+                method: 'POST',
+                body: JSON.stringify(json),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            };
+            fetch('/query', options)
+                .then(res => res.json())
+                .then(res => createtable(res))
+                .catch(err => console.error(err));
+        }
+    });
     function createtable(data) {
-        var tostring = JSON.stringify(data);
-        var tojson = JSON.parse(tostring);
-        var bodysearch = document.getElementById("bodysearch");
-        var newdiv = document.createElement("div");
+        const tostring = JSON.stringify(data);
+        const tojson = JSON.parse(tostring);
+        const bodysearch = document.getElementById("bodysearch");
+        const newdiv = document.createElement("div");
         newdiv.setAttribute("class", "container pt-5");
         newdiv.setAttribute("id", "tablediv");
-        var innerdiv = document.createElement("div");
+        const innerdiv = document.createElement("div");
         innerdiv.setAttribute("class", "row p-3");
-        var headdiv = document.createElement("div");
+        const headdiv = document.createElement("div");
         headdiv.setAttribute("class", "shadow-none pb-3 pt-3 bg-light rounded");
-        var headdivbutton = document.createElement("button");
+        const headdivbutton = document.createElement("button");
         headdivbutton.innerHTML = "Reset";
         headdivbutton.setAttribute("type", "button");
         headdivbutton.setAttribute("class", "btn btn-outline-primary rounded");
         headdivbutton.setAttribute("id", "reset");
         headdivbutton.setAttribute("style", "width: 10em;");
-        var table = document.createElement("table");
+        const table = document.createElement("table");
         table.setAttribute("class", "table");
-        var thead = document.createElement("thead");
-        var tbody = document.createElement("tbody");
-        var tr = document.createElement("tr");
-        var tre = document.createElement("tr");
+        const thead = document.createElement("thead");
+        const tbody = document.createElement("tbody");
+        const tr = document.createElement("tr");
+        const tre = document.createElement("tr");
         var finaldict = new Array;
-        var rgx = /\'/g;
+        const rgx = /\'/g;
         for (var key in tojson) {
             if (tojson.hasOwnProperty(key)) {
                 finaldict = JSON.parse(tojson[key].replace(rgx, "\""));
             }
         }
-        finaldict.forEach(function (elmnt) {
-            for (var key_1 in elmnt) {
-                var th = document.createElement("th");
+        finaldict.forEach(elmnt => {
+            for (const key in elmnt) {
+                const th = document.createElement("th");
                 th.setAttribute("scope", "col");
-                th.innerText = key_1;
+                th.innerText = key;
                 tr.append(th);
-                if (Object.prototype.hasOwnProperty.call(elmnt, key_1)) {
-                    var element = elmnt[key_1];
-                    var td = document.createElement("td");
+                if (Object.prototype.hasOwnProperty.call(elmnt, key)) {
+                    const element = elmnt[key];
+                    const td = document.createElement("td");
                     td.innerText = element;
                     tre.append(td);
                 }
