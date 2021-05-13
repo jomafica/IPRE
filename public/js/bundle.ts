@@ -21,7 +21,12 @@
     },false);
 
     submit.addEventListener("click",() => {
-        console.log(lista)
+
+        var tabledivs = (<HTMLInputElement>document.getElementById("tablediv"));
+        if(tabledivs){
+            tabledivs.remove();
+        }
+
         if(regex.test(lista.toString())){
             console.log("Submited");
 

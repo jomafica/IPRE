@@ -13,7 +13,10 @@
         }
     }, false);
     submit.addEventListener("click", () => {
-        console.log(lista);
+        var tabledivs = document.getElementById("tablediv");
+        if (tabledivs) {
+            tabledivs.remove();
+        }
         if (regex.test(lista.toString())) {
             console.log("Submited");
             var lst = new Array;
