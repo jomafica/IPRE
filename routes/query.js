@@ -25,7 +25,7 @@ router.post('/', (req, res, next) => {
   };
 
 
-  var pyshell = new PythonShell('backend_call.py', w_options);
+  var pyshell = new PythonShell('backend_call.py', m_options);
 
   pyshell.on('message', (message) => {
       //console.log(message);

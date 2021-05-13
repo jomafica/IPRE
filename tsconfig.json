@@ -6,10 +6,15 @@
       "noImplicitAny": true,
       "removeComments": true,
       "preserveConstEnums": true,
+      "allowJs": true,
       "outDir": "public/js/",
       "target": "es2020",
-      "sourceMap": true
+      "sourceMap": true,
+      "baseUrl": ".",
+      "paths": {
+        "*": ["node_modules/*"]
+      }
     },
-    "include": ["public/js/**/*"],
+    "include": ["public/js/**/*", "node_modules/**/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
 }

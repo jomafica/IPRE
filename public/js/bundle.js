@@ -1,3 +1,4 @@
+const MiniSearch = require('minisearch');
 (function () {
     const input = document.getElementById("ips");
     const submit = document.getElementById("submit");
@@ -55,6 +56,13 @@
             }
         }
         ;
+        let miniSearch = new MiniSearch({
+            fields: ['Ip', 'id', 'Domain'],
+            storeFields: ['Ip', 'Domain']
+        });
+        console.log(finaldict);
+        miniSearch.addAll(finaldict);
+        console.log(miniSearch.search('1.1.1.1'));
         const bodysearch = document.getElementById("bodysearch");
         const newdiv = document.createElement("div");
         newdiv.setAttribute("class", "container pt-5");

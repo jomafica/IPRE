@@ -1,3 +1,5 @@
+const MiniSearch = require('minisearch');
+
 (function(){
 
     //check if area as the correct format data
@@ -74,6 +76,19 @@
                 finaldict = JSON.parse(tojson[key].replace(rgx, "\""))
             }
         };
+
+
+        let miniSearch = new MiniSearch({
+            fields: ['Ip','id', 'Domain'], // fields to index for full-text search
+            storeFields: ['Ip', 'Domain'] // fields to return with search results
+          })
+          
+          // Index all documents
+          console.log(finaldict)
+          miniSearch.addAll(finaldict)
+          
+          // Search with default options
+          console.log(miniSearch.search('1.1.1.1'));
 
         // Get element to append after the table
         const bodysearch = document.getElementById("bodysearch");

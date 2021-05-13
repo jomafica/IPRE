@@ -96,7 +96,7 @@ def open_iplist(ipslist, cache):
 
         for dics in temp_jbodys:
             ids += 1
-            updict = {"Id" : ids}
+            updict = {"id" : ids}
             updict.update(dics)
             return_jbody.append(updict)
 
