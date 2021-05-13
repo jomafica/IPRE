@@ -6,7 +6,7 @@
       "noImplicitAny": true,
       "removeComments": true,
       "preserveConstEnums": true,
-      "outFile": "public/js/bundle.js",
+      "outDir": "public/js/",
       "target": "es2020",
       "sourceMap": true
     },
