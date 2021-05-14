@@ -82,11 +82,9 @@ const MiniSearch = require('minisearch');
         headdivbutton.setAttribute("id", "resetsrch");
         headdivbutton.setAttribute("style", "width: 10em;");
         // Clean search input
-        //document.getElementById("resetsrch")!.addEventListener("click",function(){
-        //
-        //    var searchval = (<HTMLInputElement>document.getElementById("search"));
-        //    searchval.remove.
-        //
+        //var searchval = <HTMLInputElement>document.getElementById("resetsrch");
+        //searchval.addEventListener("click",function(){
+        //    searchval.remove()
         //}); 
         // Create search input
         const searchin = document.createElement("input");
