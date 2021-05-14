@@ -1,3 +1,4 @@
+"use strict";
 const MiniSearch = require('minisearch');
 (function () {
     //check if area as the correct format data
@@ -108,24 +109,29 @@ const MiniSearch = require('minisearch');
                 tablerow.forEach(e => {
                     e.remove();
                 });
-                _searchdict = miniSearch.search(element.value.toString(), { fuzzy: 0.2 });
-                var i;
-                for (i = 0; i < _searchdict.length; i++) {
-                    var child = _searchdict[i];
-                    const tre = document.createElement("tr");
-                    tre.setAttribute("id", "tablerow");
-                    for (const [key, value] of Object.entries(child)) {
-                        if (key != "terms" && key != "score" && key != "match") {
-                            const td = document.createElement("td");
-                            td.innerText = value;
-                            tre.append(td);
-                            tbody.append(tre);
+                _searchdict = miniSearch.search(element.value.toString(), { fuzzy: 0.1, prefix: true });
+                if (_searchdict.length != 0) {
+                    var i;
+                    for (i = 0; i < _searchdict.length; i++) {
+                        var child = _searchdict[i];
+                        const tre = document.createElement("tr");
+                        tre.setAttribute("id", "tablerow");
+                        for (const [key, value] of Object.entries(child)) {
+                            if (key != "terms" && key != "score" && key != "match") {
+                                const td = document.createElement("td");
+                                td.innerText = value;
+                                tre.append(td);
+                                tbody.append(tre);
+                            }
+                            ;
                         }
                         ;
                     }
                     ;
                 }
-                ;
+                else {
+                    console.log("no results");
+                }
             }
             else {
                 tablerow.forEach(e => {
@@ -154,12 +160,11 @@ const MiniSearch = require('minisearch');
         const thead = document.createElement("thead");
         const tbody = document.createElement("tbody");
         const tr = document.createElement("tr");
-        // Create everything for the table ---------
         // Defining headers
         Object.entries(finaldict[0]).forEach(([key, value]) => {
             const th = document.createElement("th");
             th.setAttribute("scope", "col");
-            th.innerText = key;
+            th.innerText = "" + key;
             tr.append(th);
         });
         // Create row for each value
@@ -197,4 +202,3 @@ const MiniSearch = require('minisearch');
         console.log("cleaned");
     });
 })();
-export {};
