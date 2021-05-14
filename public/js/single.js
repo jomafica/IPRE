@@ -1,4 +1,5 @@
-import MiniSearch from 'minisearch';
+"use strict";
+const MiniSearch = require('minisearch');
 (function () {
     //check if area as the correct format data
     const input = document.getElementById("ips");
@@ -20,7 +21,6 @@ import MiniSearch from 'minisearch';
             tabledivs.remove();
         }
         if (regex.test(lista.toString())) {
-            console.log("Submited");
             var lst = new Array;
             if (lista.length > 0) {
                 var l = lista.length;

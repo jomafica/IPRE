@@ -1,9 +1,9 @@
-import MiniSearch from 'minisearch';
+const MiniSearch = require('minisearch');
 
 (function(){
 
     //check if area as the correct format data
-    const input = document.getElementById("ips");
+    const input = document.getElementById("ips")!;
     const submit = (<HTMLInputElement>document.getElementById("submit"))
     let regex  = new RegExp(/(\d{1,3}[\.]\d{1,3}[\.]\d{1,3}[\.]\d{1,3})/g);
     var lista: Array<string> = [];
@@ -12,8 +12,8 @@ import MiniSearch from 'minisearch';
         var element = e.target as HTMLInputElement;
     
         if(regex.test(element.value)){
-            
-            lista = element.value.match(regex);
+           
+            lista = element.value.match(regex)!;
             
         } 
         else { 
@@ -30,7 +30,6 @@ import MiniSearch from 'minisearch';
         }
 
         if(regex.test(lista.toString())){
-            console.log("Submited");
 
             var lst = new Array;
 
@@ -78,7 +77,7 @@ import MiniSearch from 'minisearch';
         };
 
         // Get element to append after the table
-        const bodysearch = document.getElementById("bodysearch");
+        const bodysearch = document.getElementById("bodysearch")!;
 
         // Create placeholder
         const newdiv = document.createElement("div");
@@ -173,7 +172,7 @@ import MiniSearch from 'minisearch';
     };
 
     //reset table and textarea
-    document.getElementById("reset").addEventListener("click",function(){
+    document.getElementById("reset")!.addEventListener("click",function(){
         
         var form = (<HTMLInputElement>document.getElementById("tablediv"));
         form.remove()
