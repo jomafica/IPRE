@@ -1,4 +1,3 @@
-"use strict";
 const MiniSearch = require('minisearch');
 (function () {
     //check if area as the correct format data
@@ -79,8 +78,15 @@ const MiniSearch = require('minisearch');
         headdivbutton.innerHTML = "Reset search";
         headdivbutton.setAttribute("type", "button");
         headdivbutton.setAttribute("class", "btn btn-outline-primary rounded");
-        headdivbutton.setAttribute("id", "reset");
+        headdivbutton.setAttribute("id", "resetsrch");
         headdivbutton.setAttribute("style", "width: 10em;");
+        // Clean search input
+        //document.getElementById("resetsrch")!.addEventListener("click",function(){
+        //
+        //    var searchval = (<HTMLInputElement>document.getElementById("search"));
+        //    searchval.remove.
+        //
+        //}); 
         // Create search input
         const searchin = document.createElement("input");
         searchin.setAttribute("type", "search");
@@ -88,14 +94,60 @@ const MiniSearch = require('minisearch');
         searchin.setAttribute("id", "search");
         // Search input parameters
         let miniSearch = new MiniSearch({
-            fields: ['id', 'Ip', 'Domain'],
-            storeFields: ['Ip', 'Domain'] // fields to return with search results
+            fields: ['id', 'Ip', 'Domain', 'Last resolved', 'Domain 2', 'Last resolved 2', 'Domain 3', 'Last resolved 3', 'Hashe', 'Hashe 2', 'Hashe 3', 'Permalink'],
+            storeFields: ['id', 'Ip', 'Domain', 'Last resolved', 'Domain 2', 'Last resolved 2', 'Domain 3', 'Last resolved 3', 'Hashe', 'Hashe 2', 'Hashe 3', 'Permalink'] // fields to return with search results
         });
         // Index all documents
-        console.log(finaldict);
         miniSearch.addAll(finaldict);
-        // Search with default options
-        console.log(miniSearch.search('1.1.1.1'));
+        // Capture input search box
+        searchin.addEventListener("input", (e) => {
+            var _searchdict = [];
+            var element = e.target;
+            const tablerow = document.querySelectorAll("#tablerow");
+            if (element.value.length != 0) {
+                tablerow.forEach(e => {
+                    e.remove();
+                });
+                _searchdict = miniSearch.search(element.value.toString(), { fuzzy: 0.2 });
+                var i;
+                for (i = 0; i < _searchdict.length; i++) {
+                    var child = _searchdict[i];
+                    const tre = document.createElement("tr");
+                    tre.setAttribute("id", "tablerow");
+                    for (const [key, value] of Object.entries(child)) {
+                        if (key != "terms" && key != "score" && key != "match") {
+                            const td = document.createElement("td");
+                            td.innerText = value;
+                            tre.append(td);
+                            tbody.append(tre);
+                        }
+                        ;
+                    }
+                    ;
+                }
+                ;
+            }
+            else {
+                tablerow.forEach(e => {
+                    e.remove();
+                });
+                // Create row for each value
+                var i;
+                for (i = 0; i < finaldict.length; i++) {
+                    var childz = finaldict[i];
+                    const tre = document.createElement("tr");
+                    tre.setAttribute("id", "tablerow");
+                    for (const [key, value] of Object.entries(childz)) {
+                        const td = document.createElement("td");
+                        td.innerText = "" + value;
+                        tre.append(td);
+                        tbody.append(tre);
+                    }
+                    ;
+                }
+                ;
+            }
+        }, false);
         //create table now
         const table = document.createElement("table");
         table.setAttribute("class", "table");
@@ -113,14 +165,16 @@ const MiniSearch = require('minisearch');
         // Create row for each value
         var i;
         for (i = 0; i < finaldict.length; i++) {
-            var child = finaldict[i];
+            var childs = finaldict[i];
             const tre = document.createElement("tr");
-            Object.keys(child).forEach((k) => {
+            tre.setAttribute("id", "tablerow");
+            for (const [key, value] of Object.entries(childs)) {
                 const td = document.createElement("td");
-                td.innerText = child[k];
+                td.innerText = "" + value;
                 tre.append(td);
                 tbody.append(tre);
-            });
+            }
+            ;
         }
         ;
         // Construct table
@@ -129,7 +183,7 @@ const MiniSearch = require('minisearch');
         thead.after(tbody);
         headdiv.append(buttodiv);
         buttodiv.append(searchin);
-        //searchin.after(headdivbutton);   
+        searchin.after(headdivbutton);
         innerdiv.append(headdiv);
         newdiv.append(innerdiv);
         bodysearch.after(newdiv);
@@ -143,3 +197,4 @@ const MiniSearch = require('minisearch');
         console.log("cleaned");
     });
 })();
+export {};
