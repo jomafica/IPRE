@@ -10,7 +10,7 @@ router.post('/', (req, res, next) => {
     mode: 'text',
     pythonPath: '/opt/homebrew/bin/python3.9',
     pythonOptions: ['-u'], // get print results in real-time
-    scriptPath: './public/',
+    scriptPath: './private/',
     args: [JSON.stringify(req.body)]
     // args: [req.body]
   };
@@ -25,7 +25,7 @@ router.post('/', (req, res, next) => {
   };
 
 
-  var pyshell = new PythonShell('backend_call.py', w_options);
+  var pyshell = new PythonShell('backend_call.py', m_options);
 
   pyshell.on('message', (message) => {
       //console.log(message);
